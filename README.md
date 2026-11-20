@@ -15,6 +15,7 @@ Endings -
 # Group Member Roles
 All - Contribute to the pseudo code and Mermaid diagram.
     - Participate in the overall game play development.
+    
 Kris - Creates visual assets for the game. 
      - Initializes the html file.
 
