@@ -10,7 +10,7 @@ Interactivity - Player explores the dungeon by clicking on different objects to 
 
 - **Scroll:** The player reads the illuminated scroll to understand the introduction and instructions. Clicking Start triggers the dungeon entrance sealing, activates the interactive objects, and begins the five-minute countdown.
 
-- **Books, Shackles, and Other Objects:** Players can investigate objects throughout the dungeon to discover information about the castle, its history, and the Keeper. Important discoveries are recorded in the journal.
+- **Books, Shackles, and Other Objects:** Players can investigate objects throughout the dungeon to discover information about the castle, its history, and the Keeper. One of the books reveals information about Sir Rowan, a knight who entered the castle centuries ago and became cursed by the Blood Moon. This clue helps players recognize the significance of the scrambled letters found on the Moonstone. Important discoveries are recorded in the journal.
 
 - **Spiderweb:** Clicking the spiderweb subtracts 10 seconds from the countdown, giving the player less time to escape.
 
@@ -18,13 +18,13 @@ Interactivity - Player explores the dungeon by clicking on different objects to 
 
 - **Key:** The player collects the Key, which is added to the inventory. The key is required to physically unlock the dungeon door, but the player does not need to solve the mystery to escape.
 
-- **Moonstone:** The player discovers and collects the Moonstone, revealing the inscription AWRNO(ROWAN scrambled). The player must recognize the significance of the name and determine where it should be used to uncover the Keeper's identity.
+- **Moonstone:** The player discovers and collects the Moonstone, revealing the scrambled inscription AWRNO. Players must unscramble the letters to discover the name ROWAN and determine where to use it. The clue found in one of the dungeon books can help players solve the puzzle, but reading the book is not required to enter the correct answer.
 
 - **Crystal Ball:** The player can consult the crystal ball for up to three hints. Once all three hints have been used, no additional hints are available.
 
 - **Dungeon Door:** Clicking the dungeon door checks whether the player has collected the Key. Without the key, the door remains locked. With the key, the player can choose to escape immediately or continue exploring the dungeon.
 
-- **Name Challenge:** If the player has collected the Moonstone, they have the option to enter the name discovered on its inscription. Entering ROWAN correctly reveals the truth behind the Keeper's identity and unlocks the best ending. Incorrect answers allow the player to try again, continue exploring, or leave without uncovering the truth.
+- **Name Challenge:** If the player has collected the Moonstone, they have the option to enter the name associated with its scrambled inscription at the dungeon door. The correct answer is ROWAN. Players can use the clue from the book or solve the puzzle independently. Entering the correct name reveals the Keeper's true identity and unlocks the best ending. Incorrect answers allow the player to try again, continue exploring, or leave without uncovering the truth.
 
 - **Countdown Timer:** The player has five minutes to escape. The timer continues while the player explores, investigates objects, and attempts the final challenge. If the countdown reaches zero before the player escapes, the Keeper's Curse ending is triggered.
 
@@ -32,7 +32,7 @@ The game tracks collected items, discovered clues, hints used, and remaining tim
 
 Endings - The game has three possible endings determined by the player's choices, discoveries, and remaining time.
 
-- **Ending 1: The Truth Revealed (Best Ending):** Lancelot collects the Key and Moonstone, discovers the inscription ROWAN, and successfully enters the correct name during the final challenge. This reveals that the Keeper was once Sir Rowan, a knight who became cursed by the Blood Moon. Lancelot uncovers the castle's history and escapes with the Moonstone, protected from the curse.
+- **Ending 1: The Truth Revealed (Best Ending):** Lancelot collects the key and Moonstone, discovers the scrambled inscription AWRNO, and successfully unscrambles it to enter ROWAN at the dungeon door. This reveals that the Keeper was once Sir Rowan, a knight who became cursed by the Blood Moon. Lancelot uncovers the castle's history and escapes with the Moonstone, protected from the curse.
 
 - **Ending 2: The Mystery Remains (Neutral Ending):** Lancelot collects the Key and unlocks the dungeon door but chooses to leave without solving the mystery. He escapes safely, but the truth about the Keeper, the Moonstone, and the castle's curse remains unknown. This ending can occur whether the player never collects the Moonstone or chooses not to complete the name challenge.
 
