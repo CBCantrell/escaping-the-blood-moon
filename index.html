@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escaping The Blood Moon</title>
+
+    <!-- Stylesheet and Script -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+    <!-- Sound of wall closing when player clicks Start -->
+    <audio id="wall-sound" src="audio/wall-closing.mp3" preload="auto"></audio>
+
+    <header>
+        <h1>Escaping The Blood Moon</h1>
+        <script>document.write("This game is designed to be played in a web browser that supports JavaScript.");</script>
+        <noscript>Unfortunately, your web browser does not support JavaScript.</noscript>
+    </header>
+
+    <main>
+        <!-- Javascript swaps scenes from dark bg to light bg to ending bg with door open -->
+        <div id="scene">
+            <img id="story-image" src="images/dungeon-dark.jpg" alt="A dark dungeon. Firelight falls on a scroll.">
+
+            <!-- The scroll is the only clickable item before user hits Start and will not change states -->
+            <button type="button" id="scroll" class="item">
+                <img id="scroll-img" src="images/items/scroll.png" alt="Scroll">
+            </button>
+
+            <!-- The items are hidden until the user clicks Start.
+            Each item will be its own PNG file placed on top of the background.
+            Javascript will then swap the item states when the user interacts with them. -->
+            <div id="items" hidden>
+                <button type="button" id="spiderweb" class="item">
+                    <img id="spiderweb-img" src="images/items/spiderweb.png" alt="Spiderweb">
+                </button>
+                <button type="button" id="shackles" class="item">
+                    <img id="shackles-img" src="images/items/shackles.png" alt="Shackles">
+                </button>
+                <button type="button" id="books" class="item">
+                    <img id="books-img" src="images/items/books.png" alt="Books">
+                </button>
+                <button type="button" id="letters" class="item">
+                    <img id="letters-img" src="images/items/letters.png" alt="Old letters">
+                </button>
+                <button type="button" id="rat" class="item">
+                    <img id="rat-img" src="images/items/rat.png" alt="Rat">
+                </button>
+                <button type="button" id="skeleton" class="item">
+                    <img id="skeleton-img" src="images/items/skeleton.png" alt="Skeleton">
+                </button>
+                <button type="button" id="moonstone" class="item">
+                    <img id="moonstone-img" src="images/items/moonstone.png" alt="Moonstone">
+                </button>
+                <button type="button" id="crystal-ball" class="item">
+                    <img id="crystal-ball-img" src="images/items/crystal-ball.png" alt="Crystal ball">
+                </button>
+                <button type="button" id="rubble" class="item">
+                    <img id="rubble-img" src="images/items/rubble.png" alt="Pile of rubble">
+                </button>
+                <!-- The key stays hidden until the rubble is clicked -->
+                <button type="button" id="key" class="item" hidden>
+                    <img id="key-img" src="images/items/key.png" alt="Iron key">
+                </button>
+                <button type="button" id="door" class="item">
+                    <img id="door-img" src="images/items/door.png" alt="Dungeon door">
+                </button>
+            </div>
+        </div>
+
+        <!-- The story box will be populated with text by JavaScript -->
+        <section id="story-box">
+            <p id="paragraph1"></p>
+            <p id="paragraph2"></p>
+            <p id="paragraph3"></p>
+
+            <!-- Ask the Crystal ball a question and it will provide a yes or no answer.
+             The user can ask up to 3 questions per game -->
+            <form id="question-form" hidden>
+                <label for="question-input">Ask the crystal ball a yes or no question:</label>
+                <input type="text" id="question-input" name="question" autocomplete="off" required>
+                <button type="submit" id="ask-button">Ask</button>
+            </form>
+
+            <!-- Guess the name ROWAN challenge -->
+            <form id="name-form" hidden>
+                <label for="name-input">Whose name do you speak?</label>
+                <input type="text" id="name-input" name="name" autocomplete="off" required>
+                <button type="submit" id="submitGuessButton">Speak</button>
+            </form>
+
+            <!-- Story buttons -->
+            <div id="choices">
+                <button type="button" id="nextParagraphButton" hidden>Next</button>
+                <button type="button" id="start-button" hidden>Start</button>
+                <button type="button" id="escape-button" hidden>Escape now</button>
+                <button type="button" id="speak-button" hidden>Speak a name</button>
+                <button type="button" id="leave-button" hidden>Leave without the truth</button>
+                <button type="button" id="explore-button" hidden>Keep exploring</button>
+                <button type="button" id="restart-button" hidden>Play again</button>
+            </div>
+        </section>
+
+        <!-- Status bar display for timer, crystal ball questions, journal, and inventory -->
+        <aside id="stats" hidden>
+            <p id="timer">Time left: <span id="time-left">5:00</span></p>
+            <p>Crystal ball questions: <span id="questions-used">0</span> of 3</p>
+
+            <h2>Journal</h2>
+            <ul id="journal-list"></ul>
+
+            <h3>Inventory</h3>
+            <ul id="inventory">
+                <li id="has-key" hidden>Iron key</li>
+                <li id="has-moonstone" hidden>Moonstone</li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer>
+        <p>Escaping The Blood Moon game developed for educational purposes.</p>
+    </footer>
+
+</body>
+
+</html>

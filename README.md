@@ -56,7 +56,6 @@ Maria - Develops the storyline, characters, and narrative structure.
       -Initializes the  CSS file.
 
 # Story Flowchart / Mermaid Diagram
-
 ```mermaid
 flowchart TD
     A["Dark dungeon scene loads"]
@@ -70,8 +69,7 @@ flowchart TD
     I["Explore dungeon"]
 
     J["Investigate books, shackles, and other objects"]
-    K["Read story clues and update journal"]
-
+    K["Read story clues, including Sir Rowan's history in a book, and update journal"]
     L["Click spiderweb"]
     M["Subtract 10 seconds"]
     N{"Time remaining?"}
@@ -80,7 +78,7 @@ flowchart TD
     P["Find and collect key"]
 
     Q["Find and collect Moonstone"]
-    R["Read inscription: ROWAN"]
+    R["Read scrambled inscription: AWRNO"]
 
     S["Consult crystal ball"]
     T{"Fewer than 3 hints used?"}
