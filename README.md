@@ -56,6 +56,7 @@ Maria - Develops the storyline, characters, and narrative structure.
       -Initializes the  CSS file.
 
 # Story Flowchart / Mermaid Diagram
+```mermaid
 flowchart TD
     A["Dark dungeon scene loads"]
     B["Only illuminated scroll is interactive"]
@@ -143,3 +144,4 @@ flowchart TD
     Z -.->|Timer expires| AK
     AC -.->|Timer expires| AK
     AH -.->|Timer expires| AK
+```
