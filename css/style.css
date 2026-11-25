@@ -1,0 +1,502 @@
+
+/*
+ * File: style.css
+ * Project: Escaping the Blood Moon: The Keeper's Curse
+ * Course: WEB115
+ * Author: Maria Moncayo
+ *
+ * Description:
+ * Styles the dungeon environment, interactive objects,
+ * story box, player choices, timer, journal, and inventory.
+ */
+
+/* General Page Styling */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(
+        ellipse at top,
+        #351522 0%,
+        #151d30 35%,
+        #090d18 80%
+    );
+    background-color: #090d18;
+    color: #e8dcc1;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Preserve JavaScript-controlled visibility */
+
+[hidden] {
+    display: none !important;
+}
+
+/* Header */
+
+header {
+    text-align: center;
+    padding: 30px 20px 25px;
+    border-bottom: 1px solid #c9a45c;
+    color: #e8dcc1;
+    font-size: 14px;
+}
+
+h1 {
+    margin: 0 0 10px;
+    color: #c9a45c;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px #781d2c,
+                 2px 3px 4px #090d18;
+}
+
+h2,
+h3 {
+    color: #c9a45c;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Main Game Layout */
+
+main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 25px 20px;
+}
+
+/* Dungeon Scene */
+
+#scene {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background-color: #090d18;
+    border: 2px solid #c9a45c;
+    border-radius: 5px;
+    box-shadow: 0 0 25px rgba(120, 29, 44, 0.35);
+}
+
+#story-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Interactive Dungeon Objects */
+
+.item {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #e8dcc1;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+/* Highlight interactive objects */
+
+.item:hover img,
+.item:focus-visible img {
+    filter: brightness(1.2)
+            drop-shadow(0 0 8px #c9a45c);
+}
+
+.item:focus-visible {
+    outline: 2px solid #c9a45c;
+    outline-offset: 3px;
+}
+
+/* Temporary Object Layout */
+
+/* Objects remain accessible during development.
+   Final positioning will be completed once the
+   dungeon background and item images are available. */
+
+#items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.item {
+    width: 90px;
+    max-width: 100%;
+}
+
+#scroll {
+    display: block;
+    margin: 15px auto;
+}
+
+/* Individual Object Positions */
+
+/* To be completed once final artwork is available:
+
+   #scroll
+   #spiderweb
+   #shackles
+   #books
+   #letters
+   #rat
+   #skeleton
+   #moonstone
+   #crystal-ball
+   #rubble
+   #key
+   #door
+*/
+
+/* Story and Dialogue Box */
+
+#story-box {
+    min-width: 0;
+    min-height: 150px;
+    padding: 25px;
+    background-color: #151d30;
+    border: 1px solid #c9a45c;
+    border-left: 4px solid #781d2c;
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+#story-box p {
+    margin: 0 0 15px;
+    color: #e8dcc1;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+#paragraph1 {
+    font-weight: bold;
+}
+
+#story-box p:empty {
+    display: none;
+}
+
+/* Player Choices */
+
+#choices {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* Story and Form Buttons */
+
+#story-box button {
+    padding: 12px 22px;
+    background-color: #781d2c;
+    color: #e8dcc1;
+    border: 1px solid #c9a45c;
+    border-radius: 4px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+#story-box button:hover {
+    background-color: #b83a46;
+    box-shadow: 0 0 12px rgba(184, 58, 70, 0.5);
+}
+
+#story-box button:active {
+    background-color: #541320;
+}
+
+#story-box button:focus-visible {
+    outline: 2px solid #e8dcc1;
+    outline-offset: 3px;
+}
+
+/* Start and Restart Buttons */
+
+#start-button,
+#restart-button {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Crystal Ball and Name Challenge Forms */
+
+#question-form,
+#name-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #090d18;
+    border: 1px solid #c9a45c;
+    border-radius: 4px;
+}
+
+#question-form label,
+#name-form label {
+    color: #c9a45c;
+    font-size: 18px;
+}
+
+#question-input,
+#name-input {
+    width: 100%;
+    padding: 12px;
+    background-color: #151d30;
+    color: #e8dcc1;
+    border: 1px solid #c9a45c;
+    border-radius: 3px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+}
+
+#question-input:focus,
+#name-input:focus {
+    outline: 2px solid #c9a45c;
+    outline-offset: 2px;
+}
+
+/* Player Status Panel */
+
+#stats {
+    min-width: 0;
+    padding: 20px;
+    background-color: #151d30;
+    border: 1px solid #c9a45c;
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+#stats > p {
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(201, 164, 92, 0.3);
+}
+
+/* Countdown Timer */
+
+#timer {
+    margin: 0 0 20px;
+    padding: 15px;
+    text-align: center;
+    background-color: #090d18;
+    color: #c9a45c;
+    border: 1px solid #781d2c;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#time-left {
+    display: block;
+    color: #e9717b;
+    font-size: 2.8rem;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.3;
+    text-shadow: 0 0 12px rgba(184, 58, 70, 0.5);
+}
+
+/* Exploration Progress */
+
+#questions-used,
+#discovery-score {
+    color: #c9a45c;
+    font-weight: bold;
+}
+
+/* Journal */
+
+#stats h2 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #c9a45c;
+    font-size: 21px;
+}
+
+#journal-list {
+    min-height: 90px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #e8dcc1;
+    background-image: linear-gradient(
+        135deg,
+        #f1e6ce,
+        #d4bf96
+    );
+    color: #38291e;
+    border: 2px solid #a88b56;
+    border-radius: 4px;
+    box-shadow: inset 0 0 15px rgba(91, 62, 31, 0.2);
+}
+
+#journal-list p {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 15px;
+    font-style: italic;
+    border-bottom: 1px solid #ad956e;
+    overflow-wrap: anywhere;
+}
+
+#journal-list p:last-child {
+    border-bottom: none;
+}
+
+#journal-list:empty::before {
+    content: "No discoveries yet.";
+    color: #67543c;
+    font-style: italic;
+}
+
+/* Inventory */
+
+#stats h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #c9a45c;
+    font-size: 19px;
+}
+
+#inventory {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#inventory li {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    background-color: #090d18;
+    color: #e8dcc1;
+    border: 1px solid #c9a45c;
+    border-radius: 3px;
+}
+
+#inventory li::before {
+    content: "◆";
+    margin-right: 10px;
+    color: #c9a45c;
+}
+
+/* Footer */
+
+footer {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid rgba(201, 164, 92, 0.4);
+    color: #b4a996;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+/* Responsive Desktop Layout */
+
+/* Display the status panel beside the dungeon
+   once JavaScript reveals the player's stats. */
+
+@media (min-width: 1000px) {
+
+    main:has(#stats:not([hidden])) {
+        grid-template-columns: minmax(0, 1fr) 290px;
+        grid-template-rows: auto 1fr;
+        align-items: start;
+    }
+
+    #scene {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #story-box {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #stats {
+        grid-column: 2;
+        grid-row: 1 / 3;
+    }
+
+}
+
+/* Responsive Mobile Layout */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 20px 12px;
+    }
+
+    h1 {
+        letter-spacing: 2px;
+    }
+
+    main {
+        padding: 15px 10px;
+        gap: 15px;
+    }
+
+    #story-box,
+    #stats {
+        padding: 15px;
+    }
+
+    #story-box p {
+        font-size: 16px;
+    }
+
+    #choices {
+        flex-direction: column;
+    }
+
+    #choices button {
+        width: 100%;
+    }
+
+    #time-left {
+        font-size: 2.2rem;
+    }
+
+}
+
+/* Accessibility: Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .item img,
+    #story-box button {
+        transition: none;
+    }
+
+}
