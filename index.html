@@ -8,12 +8,12 @@
 
     <!-- Stylesheet and Script -->
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js" defer></script>
+    <script src="js/dungeon-game.js" defer></script>
 </head>
 
 <body>
     <!-- Sound of wall closing when player clicks Start -->
-    <audio id="wall-sound" src="audio/wall-closing.mp3" preload="auto"></audio>
+    <audio id="wall-sound" src="audio/wall-closing.wav" preload="auto"></audio>
 
     <header>
         <h1>Escaping The Blood Moon</h1>
@@ -110,9 +110,13 @@
             <p id="timer">Time left: <span id="time-left">5:00</span></p>
             <p>Crystal ball questions: <span id="questions-used">0</span> of 3</p>
 
-            <h2>Journal</h2>
-            <ul id="journal-list"></ul>
+            <!-- Requirement O: Display exploration progress. -->
+            <p>Secrets Revealed: <span id="discovery-score">0 of 4</span></p>
 
+            <h2>Journal</h2>
+            <!-- Requirement P: Journal entries will be created by JavaScript. -->
+            <div id="journal-list"></div>
+            
             <h3>Inventory</h3>
             <ul id="inventory">
                 <li id="has-key" hidden>Iron key</li>
