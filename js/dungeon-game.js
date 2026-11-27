@@ -19,6 +19,15 @@
 
 "use strict";
 
+// Requirement A: Reference the opening scroll overlay and its contents.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+
+const scrollOverlay = document.getElementById("scroll-overlay");
+const scrollStory = document.getElementById("scroll-story");
+const scrollObjective = document.getElementById("scroll-objective");
+const scrollInstructions = document.getElementById("scroll-instructions");
+const scrollStartButton = document.getElementById("scroll-start-button");
+
 // Requirement A: Store references to HTML elements using the DOM.
 const storyImage = document.getElementById("story-image");
 const scrollButton = document.getElementById("scroll");
@@ -75,6 +84,10 @@ const outroMusic = new Audio("audio/outro.mp3");
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio
 const doorEscapeSound = new Audio("audio/door-escape.mp3");
 
+// Requirement Q: Balance the door-opening sound with the ending music.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/volume
+doorEscapeSound.volume = 0.30;
+
 // Requirement A: Reference the spiderweb button.
 const spiderwebButton = document.getElementById("spiderweb");
 
@@ -91,6 +104,10 @@ let gameStarted = false;
 let gameEnded = false;
 let scrollOpened = false;
 
+// Requirement Q: Repeat the atmospheric introduction until gameplay begins.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/loop
+introMusic.loop = true;
+
 // Gameplay music repeats until the player reaches an ending.
 gameplayMusic.loop = true;
 
@@ -99,29 +116,121 @@ introMusic.volume = 0.25;
 gameplayMusic.volume = 0.25;
 outroMusic.volume = 0.25;
 
-// Requirements B and J: Use a function to update the story paragraphs.
+
+// Requirements B, J, L, and Q:
+// Open the scroll overlay, display the story and instructions,
+// and play the atmospheric introduction music.
+//
+// References:
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden
+// https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+
 function showOpeningScroll() {
     if (scrollOpened || gameStarted || gameEnded) {
         return;
     }
 
     scrollOpened = true;
-    paragraph1.textContent = "The Moonstone lies hidden beneath this very castle...";
-    paragraph2.textContent = "The Keeper has searched for it for centuries.";
-    paragraph3.textContent = "Beware of the Blood Moon!";
 
-    // Requirement L: Change an element's visibility.
-    startButton.hidden = false;
+    // Requirement H: Record that the Keeper's warning was opened.
+    saveScrollCookie();
 
-    // Requirement Q: Play the introduction music when the scroll is opened.
+    // Temporary text based on Maria's existing storyline.
+    // Maria will review the final narrative and instructions.
+    scrollStory.textContent =
+        "The Moonstone lies hidden beneath this very castle. " +
+        "The Keeper has searched for it for centuries. " +
+        "Beware of him, for the Blood Moon has twisted his mind! " +
+        "Long ago, the Professor sought to conceal the Moonstone " +
+        "and protect others from its power.";
+
+    scrollObjective.textContent =
+        "You must escape the dungeon before the Blood Moon reaches its peak. " +
+        "Search the room for useful objects, uncover the castle's secrets, " +
+        "and find a way through the locked door.";
+
+    scrollInstructions.textContent =
+        "You have five minutes once you begin. Click objects to examine them, " +
+        "collect items, and consult the crystal ball for up to three hints. " +
+        "Press Escape to close this scroll without starting the game.";
+
+    // Requirement L: Reveal the scroll over the dungeon.
+    scrollOverlay.hidden = false;
+
+    // Requirement Q: Play the looping introductory music.
     introMusic.currentTime = 0;
     introMusic.play().catch((error) => {
         console.warn("Introduction music could not play:", error);
     });
+
+
+    scrollStartButton.focus();
 }
+
+// Requirements B, R, and W:
+// Allow the player to close the opening scroll using Escape.
+//
+// References:
+// MDN KeyboardEvent.key:
+// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+// MDN keydown event:
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
+
+function closeOpeningScroll() {
+    // Only close the scroll before gameplay has started.
+    if (!scrollOpened || gameStarted || gameEnded) {
+        return;
+    }
+
+    scrollOverlay.hidden = true;
+    scrollOpened = false;
+
+    // Stop and rewind the introductory music.
+    introMusic.pause();
+    introMusic.currentTime = 0;
+
+    // Return keyboard focus to the scroll in the dungeon.
+    scrollButton.focus();
+}
+
+// Requirements I, R, and W:
+// Listen for Escape on the document itself.
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !scrollOverlay.hidden) {
+        closeOpeningScroll();
+    }
+});
 
 // Requirement I: Attach a click event listener to the scroll.
 scrollButton.addEventListener("click", showOpeningScroll);
+
+// Requirement I: Start the game from inside the opening scroll.
+scrollStartButton.addEventListener("click", startGame);
+
+
+// Requirement H: Use a browser cookie to remember whether the
+// player has previously opened the Keeper's warning scroll.
+//
+// References:
+// https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+
+function saveScrollCookie() {
+    // Keep the cookie for 7 days and make it available throughout the site.
+    document.cookie = "keeperScrollSeen=true; max-age=604800; path=/; SameSite=Lax";
+}
+
+function hasSeenScrollCookie() {
+    const cookies = document.cookie.split(";");
+
+    for (const cookie of cookies) {
+        if (cookie.trim() === "keeperScrollSeen=true") {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 // Requirements B, K, and L:
 // Start gameplay, change the scene image, and reveal game elements.
@@ -131,6 +240,8 @@ function startGame() {
     }
 
     gameStarted = true;
+    // Requirement L: Close the introductory scroll when gameplay begins.
+    scrollOverlay.hidden = true;
 
     // Requirement K: Change the image using a filename argument.
     changeSceneImage("images/dungeon-lit.jpg");
@@ -177,6 +288,10 @@ const wolfWarning = new Audio("audio/wolf-warning.mp3");
 let timeRemaining = 300; // Five minutes in seconds
 let timerInterval = null;
 let wolfHasPlayed = false;
+
+// Requirement S: Track delayed ending music so Play Again can cancel it.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout
+let outroDelayTimeout = null;
 
 // Requirements B, L, Q, T, and U:
 // Update the timer display and handle time-based consequences.
@@ -233,6 +348,12 @@ function triggerSpiderweb() {
     }
 
     hideDoorChoices();
+
+    // Requirement Q: Give immediate audio feedback for the spiderweb penalty.
+    spiderwebSound.currentTime = 0;
+    spiderwebSound.play().catch((error) => {
+        console.warn("Spiderweb sound could not play:", error);
+    });
 
     // Subtract ten seconds from the remaining time.
     timeRemaining -= 10;
@@ -340,11 +461,30 @@ function endGame(ending) {
         });
     }
 
-    // Requirement Q: Play the outro for every ending.
-    outroMusic.currentTime = 0;
-    outroMusic.play().catch((error) => {
-        console.warn("Outro music could not play:", error);
-    });
+
+    // Requirements Q and S: Delay the ending music after a successful escape
+    // so the dungeon door sound can play first.
+    // The curse ending plays its music immediately.
+    //
+    // References:
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play
+
+    if (ending === "truth" || ending === "mystery") {
+        outroDelayTimeout = setTimeout(() => {
+            outroDelayTimeout = null;
+
+            outroMusic.currentTime = 0;
+            outroMusic.play().catch((error) => {
+                console.warn("Outro music could not play:", error);
+            });
+        }, 2500);
+    } else {
+        outroMusic.currentTime = 0;
+        outroMusic.play().catch((error) => {
+            console.warn("Outro music could not play:", error);
+        });
+    }
 }
 
 // Requirements B, D, I, N, Q, and U:
@@ -359,8 +499,9 @@ function endGame(ending) {
 // Requirement U: Track whether the player has collected the key.
 let hasKey = false;
 
-// Requirement Q: Play the key discovery sound.
+// Requirement Q: Play the key discovery sound balance discovery effects against background music.
 const keyDiscoverySound = new Audio("audio/key-discovery.mp3");
+keyDiscoverySound.volume = 0.35;
 
 // Reveal the key when the player searches the rubble.
 function searchRubble() {
@@ -373,9 +514,107 @@ function searchRubble() {
         return;
     }
 
+    // Requirement Q: Play an interaction sound when searching the rubble.
+    interactionSound.currentTime = 0;
+    interactionSound.play().catch((error) => {
+        console.warn("Rubble interaction sound could not play:", error);
+    });
+
     paragraph1.textContent = "You discover an iron key beneath the rubble.";
     keyButton.hidden = false;
 }
+
+ // Requirement E: Define and use JavaScript classes.
+ // A DungeonItem represents an object the player can collect.
+ //
+ // References:
+ // MDN Classes:
+ // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+ // MDN createElement:
+ // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+ // MDN appendChild:
+ // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+
+class DungeonItem {
+    constructor(name) {
+        this.name = name;
+    }
+
+    addToInventory() {
+        const inventoryItem = document.createElement("li");
+        inventoryItem.textContent = this.name;
+        inventoryList.appendChild(inventoryItem);
+    }
+}
+
+// Create two instances of the DungeonItem class.
+const ironKey = new DungeonItem("Iron key");
+const moonstone = new DungeonItem("Moonstone");
+
+// Requirement E: Define and instantiate a class for story clues.
+// Each clue contains its own description and journal entry.
+//
+// Reference:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+
+class StoryClue {
+    constructor(description, clueId, journalText) {
+        this.description = description;
+        this.clueId = clueId;
+        this.journalText = journalText;
+    }
+
+    examine() {
+        examineObject(this.description, this.clueId, this.journalText);
+    }
+}
+
+// Instances representing meaningful clues in the dungeon.
+const rowanBook = new StoryClue(
+    "You examine an old book containing the history of Sir Rowan.",
+    "books",
+    "Sir Rowan's name may help decipher the Moonstone inscription: AWRNO."
+);
+
+const castleLetters = new StoryClue(
+    "You discover old letters describing the castle's troubled past.",
+    "letters",
+    "The letters suggest the castle was sealed to conceal a dangerous secret."
+);
+
+// Requirement E: Class for tracking the player's game statistics.
+// Manages discovery progress and crystal ball hint usage.
+//
+// Reference:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+
+class GameStats {
+    constructor() {
+        this.discoveries = 0;
+        this.hints = 0;
+    }
+
+    addDiscovery() {
+        this.discoveries++;
+        scoreDisplay.textContent = `${this.discoveries} of 4`;
+    }
+
+    addHint() {
+        this.hints++;
+        questionsUsedDisplay.textContent = this.hints;
+    }
+
+    reset() {
+        this.discoveries = 0;
+        this.hints = 0;
+        scoreDisplay.textContent = "0 of 4";
+        questionsUsedDisplay.textContent = "0";
+    }
+}
+
+// Create an instance that tracks the current playthrough.
+const gameStats = new GameStats();
+
 
 // Requirements D and N: Create a visible inventory item.
 function collectKey() {
@@ -393,9 +632,7 @@ function collectKey() {
     // Requirement O: The key is one of the four Secrets Revealed.
     recordDiscovery("iron-key");
 
-    const inventoryItem = document.createElement("li");
-    inventoryItem.textContent = "Iron key";
-    inventoryList.appendChild(inventoryItem);
+    ironKey.addToInventory();
 
     keyButton.hidden = true;
 
@@ -425,8 +662,9 @@ keyButton.addEventListener("click", collectKey);
 // Requirement U: Track whether the Moonstone has been collected.
 let hasMoonstone = false;
 
-// Requirement Q: Moonstone discovery sound.
+// Requirement Q: Moonstone discovery sound and balance discovery effects against background music.
 const moonstoneDiscoverySound = new Audio("audio/moonstone-discovery.mp3");
+moonstoneDiscoverySound.volume = 0.35;
 
 // Requirements B, D, and N: Collect the Moonstone once.
 function collectMoonstone() {
@@ -445,9 +683,7 @@ function collectMoonstone() {
     recordDiscovery("moonstone");
     addJournalEntry("Moonstone inscription: AWRNO.");
 
-    const inventoryItem = document.createElement("li");
-    inventoryItem.textContent = "Moonstone";
-    inventoryList.appendChild(inventoryItem);
+    moonstone.addToInventory();
 
     moonstoneButton.hidden = true;
 
@@ -496,10 +732,7 @@ function recordDiscovery(discoveryId) {
     }
 
     revealedSecrets.add(discoveryId);
-    discoveryCount++;
-
-    // Requirement O: Display secrets revealed out of four.
-    scoreDisplay.textContent = `${discoveryCount} of 4`;
+    gameStats.addDiscovery();
 }
 
 // Requirement U: Prevent meaningful clues from entering the journal twice.
@@ -511,7 +744,15 @@ const discoveredClues = new Set();
 // References:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play
-const interactionSound = new Audio("audio/interact.mp3");
+const interactionSound = new Audio("audio/item-interaction.mp3");
+
+// Requirement Q: Sound feedback for the spiderweb time penalty.
+const spiderwebSound = new Audio("audio/interact.mp3");
+spiderwebSound.volume = 0.30;
+
+// Requirement Q: Control the volume of ordinary object interactions.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/volume
+interactionSound.volume = 0.30;
 
 function hideDoorChoices() {
     escapeButton.hidden = true;
@@ -554,15 +795,9 @@ function examineObject(description, clueId = null, journalText = null) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
 
 function examineBooks() {
-    // Temporary text until Maria finalizes the narrative.
-    const description =
-        "You examine an old book containing the history of Sir Rowan.";
-
-    const clue =
-        "Sir Rowan's name may help decipher the Moonstone inscription: AWRNO.";
-
-    examineObject(description, "books", clue);
+    rowanBook.examine();
 }
+
 
 // Requirement I: Respond when the player examines the books.
 booksButton.addEventListener("click", examineBooks);
@@ -575,13 +810,8 @@ booksButton.addEventListener("click", examineBooks);
 // MDN addEventListener:
 // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 
-// Temporary text; Maria will provide the final narrative.
 lettersButton.addEventListener("click", () => {
-    examineObject(
-        "You discover old letters describing the castle's troubled past.",
-        "letters",
-        "The letters suggest the castle was sealed to conceal a dangerous secret."
-    );
+    castleLetters.examine();
 });
 
 shacklesButton.addEventListener("click", () => {
@@ -644,8 +874,8 @@ function consultCrystalBall() {
     paragraph2.textContent = "";
     paragraph3.textContent = "";
 
-    hintsUsed++;
-    questionsUsedDisplay.textContent = hintsUsed;
+    gameStats.addHint();
+    hintsUsed = gameStats.hints;
 
     // Requirement Q: Play the magical sound when a new hint appears.
     crystalBallSound.currentTime = 0;
@@ -818,10 +1048,14 @@ function restartGame() {
     clearInterval(timerInterval);
     timerInterval = null;
 
+    // Requirement S: Cancel delayed music if the player restarts.
+    clearTimeout(outroDelayTimeout);
+    outroDelayTimeout = null;
+
     // Pause and rewind all audio so nothing carries into a new game.
     const allAudio = [wallSound, introMusic, gameplayMusic, outroMusic,
         doorEscapeSound, wolfWarning, keyDiscoverySound,
-        moonstoneDiscoverySound, interactionSound, crystalBallSound];
+        moonstoneDiscoverySound, spiderwebSound, interactionSound, crystalBallSound];
 
     for (const audio of allAudio) {
         audio.pause();
@@ -831,10 +1065,12 @@ function restartGame() {
     gameStarted = false;
     gameEnded = false;
     scrollOpened = false;
+    scrollOverlay.hidden = true;
     hasKey = false;
     hasMoonstone = false;
     timeRemaining = 300;
     wolfHasPlayed = false;
+    gameStats.reset();
     hintsUsed = 0;
     discoveryCount = 0;
     discoveredClues.clear();
@@ -868,6 +1104,60 @@ function restartGame() {
     paragraph1.textContent = "";
     paragraph2.textContent = "";
     paragraph3.textContent = "";
+}
+
+
+// Requirements F and G: Simulate saving and loading the game state
+// using JSON serialization and try-catch error handling.
+//
+// References:
+// MDN JSON.stringify():
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+// MDN JSON.parse():
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
+// MDN try...catch:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+
+function simulateSaveLoad() {
+    try {
+        // Requirement F: Create a snapshot of the current game state.
+        const gameState = {
+            hasKey: hasKey,
+            hasMoonstone: hasMoonstone,
+            timeRemaining: timeRemaining,
+            discoveries: gameStats.discoveries,
+            hintsUsed: gameStats.hints,
+            revealedSecrets: Array.from(revealedSecrets),
+            discoveredClues: Array.from(discoveredClues)
+        };
+
+        // Simulate saving the game by converting its state to JSON.
+        const savedGame = JSON.stringify(gameState);
+
+        // Simulate loading the game by converting JSON back to an object.
+        const loadedGame = JSON.parse(savedGame);
+
+        // Requirement G: Validate the restored data.
+        if (
+            typeof loadedGame.hasKey !== "boolean" ||
+            typeof loadedGame.hasMoonstone !== "boolean" ||
+            !Number.isFinite(loadedGame.timeRemaining) ||
+            !Array.isArray(loadedGame.revealedSecrets) ||
+            !Array.isArray(loadedGame.discoveredClues)
+        ) {
+            throw new Error("Invalid saved game data.");
+        }
+
+        console.log("Simulated game save:", savedGame);
+        console.log("Simulated game load:", loadedGame);
+
+        return loadedGame;
+
+    } catch (error) {
+        // Requirement G: Handle errors without crashing gameplay.
+        console.error("Game save/load simulation failed:", error);
+        return null;
+    }
 }
 
 // Requirement I: Make the ending's Play Again button functional.

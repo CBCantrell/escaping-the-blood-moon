@@ -86,6 +86,9 @@ main {
     border: 2px solid #c9a45c;
     border-radius: 5px;
     box-shadow: 0 0 25px rgba(120, 29, 44, 0.35);
+    /* Keep the dungeon properly sized while artwork is unavailable. */
+    aspect-ratio: 16 / 9;
+    min-height: 350px;
 }
 
 #story-image {
@@ -168,6 +171,72 @@ main {
    #key
    #door
 */
+
+/* Opening Scroll Overlay
+   Displays the Keeper's warning and game instructions
+   over the dungeon scene. */
+
+#scroll-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(9, 13, 24, 0.75);
+}
+
+/* Parchment scroll appearance */
+
+#scroll-content {
+    width: min(650px, 90%);
+    max-height: calc(100% - 40px);
+    overflow-y: auto;
+    padding: 30px;
+    background: linear-gradient(
+        135deg,
+        #f1e6ce,
+        #d4bf96
+    );
+    color: #38291e;
+    border: 3px solid #a88b56;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+#scroll-content h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #781d2c;
+}
+
+#scroll-content p {
+    color: #38291e;
+    line-height: 1.7;
+}
+
+#scroll-start-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 30px;
+    background: #781d2c;
+    color: #f1e6ce;
+    border: 1px solid #a88b56;
+    border-radius: 4px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#scroll-start-button:hover {
+    background: #b83a46;
+}
+
+#scroll-start-button:focus-visible {
+    outline: 2px solid #38291e;
+    outline-offset: 3px;
+}
+
 
 /* Story and Dialogue Box */
 
@@ -316,7 +385,7 @@ main {
 
 #time-left {
     display: block;
-    color: #e9717b;
+    color: #c9a45c;
     font-size: 2.8rem;
     font-weight: bold;
     font-variant-numeric: tabular-nums;
