@@ -31,6 +31,24 @@
                 <img id="scroll-img" src="images/items/scroll.png" alt="Scroll">
             </button>
 
+            <!-- Opening scroll overlay: hidden until the player clicks the scroll. -->
+            <div id="scroll-overlay" hidden>
+                <div id="scroll-content" role="dialog"
+                    aria-modal="true"
+                    aria-label="The Keeper's Warning">
+
+                    <h2>The Keeper's Warning</h2>
+
+                    <p id="scroll-story"></p>
+                    <p id="scroll-objective"></p>
+                    <p id="scroll-instructions"></p>
+
+                    <button type="button" id="scroll-start-button">
+                        Start
+                    </button>
+                </div>
+            </div>
+
             <!-- The items are hidden until the user clicks Start.
             Each item will be its own PNG file placed on top of the background.
             Javascript will then swap the item states when the user interacts with them. -->
