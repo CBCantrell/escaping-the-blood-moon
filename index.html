@@ -1,5 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+ File: index.html
+ Project: Escaping the Blood Moon: The Keeper's Curse
+ Course: WEB115
+
+Author: Kris Fulk
+
+Description:
+Built the HTML structure for the game: the scene, clickable items,
+    story box, forms, and stats panel
+Set up the IDs and classes used by the CSS and JavaScript
+Checked the HTML against the assignment requirements, the Mermaid
+    flowchart, and the game play document
+Created a spreadsheet that mapped out the scenes and items to visualize the game flow and item interactions
+
+Team Project:
+    Kris Fulk - HTML and visual assets
+    Maria Moncayo - CSS and narrative
+    Christie Cantrell - JavaScript and game integration
+
+-->
 
 <head>
     <meta charset="UTF-8">
@@ -96,14 +117,6 @@
             <p id="paragraph2"></p>
             <p id="paragraph3"></p>
 
-            <!-- Ask the Crystal ball a question and it will provide a yes or no answer.
-             The user can ask up to 3 questions per game -->
-            <form id="question-form" hidden>
-                <label for="question-input">Ask the crystal ball a yes or no question:</label>
-                <input type="text" id="question-input" name="question" autocomplete="off" required>
-                <button type="submit" id="ask-button">Ask</button>
-            </form>
-
             <!-- Guess the name ROWAN challenge -->
             <form id="name-form" hidden>
                 <label for="name-input">Whose name do you speak?</label>
@@ -134,7 +147,7 @@
             <h2>Journal</h2>
             <!-- Requirement P: Journal entries will be created by JavaScript. -->
             <div id="journal-list"></div>
-            
+
             <h3>Inventory</h3>
             <ul id="inventory">
                 <li id="has-key" hidden>Iron key</li>
